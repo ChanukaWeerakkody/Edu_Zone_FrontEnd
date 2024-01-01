@@ -19,7 +19,8 @@ const Hero: FC<Props> = (Props) => {
                     </div>
                 </div>
             </div>
-
+            <br/>
+            <br/>
             <div className="ml-20 dark:text-[#edfff4] text-[#000000ac] font-[600] text-[18px] 1500px:!w-[55%] 1100px:!w-[78%]">
                 <h2 className="dark:text-white text-[#000000c7] text-[30px] px-3 w-full 1000px:text-[70px] font-[600] font-Josefin py-2 1000px:leading-[75px] 1500px:w-[60]">
                     Improve your Online Learning Experience Better Instantly
