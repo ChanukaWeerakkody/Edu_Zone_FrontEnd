@@ -41,6 +41,57 @@ const Login:FC<Props> = (props: Props) => {
                 htmlFor="email">
                     Enter your Email
                 </label>
+                <input type="email"
+                    name=""
+                       value={values.email}
+                       onChange={handleChange}
+                       id="email"
+                       placeholder="loginmail@gmail.com"
+                       className={`${
+                            errors.email && touched.email && "border-red-500"
+                            } ${styles.input}                      
+                       `}
+                />
+                {errors.email && touched.email && (
+                    <span className="text-red-500 pt-2 block">{errors.email}</span>
+                )}
+                <div className="w-full mt-5 relative mb-1">
+                    <label className={`${styles.label}`} htmlFor="email">
+                        Enter your Password
+                    </label>
+                    <input type={!show ? "password" : "text"}
+                           name="password"
+                           value={values.password}
+                           onChange={handleChange}
+                           id="password"
+                           placeholder="password!@%"
+                           className={`${errors.password && touched.password && "border-red-500"} ${
+                               styles.input
+                           }`}
+                    />
+                    {!show ? (
+                        <AiOutlineEyeInvisible
+                            className="absolute bottom-3 right-2 cursor-pointer z-1"
+                            size={20}
+                            onClick={() => setShow(true)}
+                        />
+                    ) : (
+                        <AiOutlineEye
+                            className="absolute bottom-3 right-2 cursor-pointer z-1"
+                            size={20}
+                            onClick={() => setShow(false)}
+                        />
+                    )}
+                    {errors.password && touched.password && (
+                        <span className="text-red-500 pt-2 block">{errors.password}</span>
+                    )}
+                </div>
+                <div className="w-full mt-5">
+                    <input type="submit"
+                        value="Login"
+                           className={`${styles.button}`}
+                    />
+                </div>
             </form>
         </div>
     );
