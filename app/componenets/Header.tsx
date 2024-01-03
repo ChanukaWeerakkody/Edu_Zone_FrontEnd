@@ -8,6 +8,7 @@ import {HiOutlineMenuAlt3, HiOutlineUserCircle} from "react-icons/hi";
 import hiOutlineUserCircle from "react-icons/hi";
 import CustomModal from "../utils/CustomModal";
 import Login from "../componenets/Auth/Login";
+import signUp from "../componenets/Auth/Signup";
 
 interface Props{
     open:boolean;
@@ -117,7 +118,23 @@ const Header:FC<Props> = ({activeItem,setOpen,route,open,setRoute}) =>{
                 )
             }
 
-
+            {
+                route === "Sign-Up" && (
+                    <>
+                        {
+                            open && (
+                                <CustomModal
+                                    open={open}
+                                    setOpen={setOpen}
+                                    setRoute={setRoute}
+                                    activeItem={activeItem}
+                                    component={signUp}
+                                />
+                            )
+                        }
+                    </>
+                )
+            }
 
         </div>
     );
