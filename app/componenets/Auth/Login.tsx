@@ -4,6 +4,7 @@ import {useFormik} from "formik";
 import * as Yup from "yup";
 import {AiOutlineEye,AiOutlineEyeInvisible,AiFillGithub} from "react-icons/ai";
 import {FcGoogle} from "react-icons/fc";
+import {styles} from "../../styles/style";
 
 type Props = {
     setRoute: (route:string) => void;
@@ -32,7 +33,15 @@ const Login:FC<Props> = (props: Props) => {
 
     return (
         <div className="w-full">
-
+            <h1 className={`${styles.title}`}>
+                Login with Edu-zone
+            </h1>
+            <form onSubmit={handleSubmit}>
+                <label className={`${styles.label}`}
+                htmlFor="email">
+                    Enter your Email
+                </label>
+            </form>
         </div>
     );
 }
