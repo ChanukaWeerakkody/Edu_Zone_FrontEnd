@@ -1,15 +1,15 @@
+'use client';
 import Link from "next/link";
 
-'use-client'
 import React, {FC,useState} from 'react';
 import NavItems from "../utils/NavItems";
 import {ThemeSwitcher} from "../utils/ThemeSwitcher";
 import {HiOutlineMenuAlt3, HiOutlineUserCircle} from "react-icons/hi";
-import hiOutlineUserCircle from "react-icons/hi";
 import CustomModal from "../utils/CustomModal";
 import Login from "../componenets/Auth/Login";
-import signUp from "../componenets/Auth/Signup";
+import SignUp from "../componenets/Auth/Signup";
 import Verification from "../componenets/Auth/Verification";
+
 
 interface Props{
     open:boolean;
@@ -120,7 +120,7 @@ const Header:FC<Props> = ({activeItem,setOpen,route,open,setRoute}) =>{
             }
 
             {
-                route === "Sign-Up" && (
+                route === "SignUp" && (
                     <>
                         {
                             open && (
@@ -129,7 +129,7 @@ const Header:FC<Props> = ({activeItem,setOpen,route,open,setRoute}) =>{
                                     setOpen={setOpen}
                                     setRoute={setRoute}
                                     activeItem={activeItem}
-                                    component={signUp}
+                                    component={SignUp}
                                 />
                             )
                         }

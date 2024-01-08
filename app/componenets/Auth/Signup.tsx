@@ -1,10 +1,13 @@
 'use client'
-import React, {FC, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {AiOutlineEye,AiOutlineEyeInvisible,AiFillGithub} from "react-icons/ai";
 import {FcGoogle} from "react-icons/fc";
 import {styles} from "../../styles/style";
+import {toast} from "react-hot-toast";
+import {useRegisterMutation} from "../../../redux/features/auth/authApi";
+
 
 type Props = {
     setRoute: (route:string) => void;
@@ -18,16 +21,43 @@ const schema = Yup.object().shape({
 
 const SignUp:FC<Props> = ({setRoute}) => {
     const [show, setShow] = useState(false);
+    const [register,{data,error,isSuccess}] = useRegisterMutation();
 
+    useEffect(() =>{
+        if(isSuccess){
+            const message = data?.message || "Registration successfully";
+            //toast.success(message);
+            toast.success("Send OTP to your email and check it out");
+            //alert("OTP sent to your email");
+            setRoute("Verification");
+
+        }
+        if(error){
+            if("data" in error){
+                const errorData = error as any;
+                toast.error(errorData.data.message);
+                //alert("Email already exists");
+            }
+        }
+
+    },[isSuccess,error]);
+
+    let myVariable: number = 0;
     const formik = useFormik({
+
         initialValues: {
             name: "",
             email: "",
             password: "",
         },
         validationSchema: schema,
-        onSubmit:async ({email,password}) =>{
-            setRoute("Verification")
+        onSubmit:async ({name,email,password}) =>{
+            //setRoute("Verification")
+            console.log(email,password);
+            const data = {
+                name,email,password
+            };
+            await register(data);
         }
     });
 
@@ -110,7 +140,7 @@ const SignUp:FC<Props> = ({setRoute}) => {
                 )}
                 <div className="w-full mt-5">
                     <input type="submit"
-                           value="Sign Up"
+                           value="SignUp"
                            className={`${styles.button}`}
                     />
                 </div>
@@ -124,7 +154,7 @@ const SignUp:FC<Props> = ({setRoute}) => {
                 </div>
                 <h5 className="text-center pt-4 font-Poppins text-[14px]">
                     Already have an account?{""}
-                    <span className="text-[#2190ff] pl-1 cursor-pointer" onClick={() =>setRoute("Sign-Up")}>
+                    <span className="text-[#2190ff] pl-1 cursor-pointer" onClick={() =>setRoute("SignUp")}>
                         Sign In
                     </span>
                 </h5>

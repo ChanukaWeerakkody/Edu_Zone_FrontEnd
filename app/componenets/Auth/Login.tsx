@@ -19,10 +19,7 @@ const Login:FC<Props> = ({setRoute}) => {
     const [show, setShow] = useState(false);
 
     const formik = useFormik({
-        initialValues: {
-            email: "",
-            password: "",
-        },
+        initialValues: {email: "", password: ""},
         validationSchema: schema,
         onSubmit:async ({email,password}) =>{
             console.log(email,password);
@@ -102,7 +99,7 @@ const Login:FC<Props> = ({setRoute}) => {
                 </div>
                 <h5 className="text-center pt-4 font-Poppins text-[14px]">
                     Not have an account?{""}
-                    <span className="text-[#2190ff] pl-1 cursor-pointer" onClick={() =>setRoute("Sign-Up")}>
+                    <span className="text-[#2190ff] pl-1 cursor-pointer" onClick={() =>setRoute("SignUp")}>
                         Sign Up
                     </span>
                 </h5>

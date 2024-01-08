@@ -1,8 +1,10 @@
-import React, {FC, useRef, useState} from "react";
+import React, {FC, useEffect, useRef, useState} from "react";
 import {toast} from "react-hot-toast";
 import {VscWorkspaceTrusted} from "react-icons/vsc";
 import {styles} from "../../styles/style";
-import {errors} from "undici-types";
+import {useSelector} from "react-redux";
+import {useActivationMutation} from "../../../redux/features/auth/authApi";
+
 
 
 type Props = {
@@ -10,14 +12,55 @@ type Props = {
 }
 
 type VerifyNumber = {
-    "0":string;
-    "1":string;
-    "2":string;
-    "3":string;
+    "0" :string;
+    "1" :string;
+    "2" :string;
+    "3" :string;
 }
 
 const Verification:FC<Props> = ({setRoute}) => {
+    const {token} = useSelector((state:any) => state.auth);
+    const [activation,{isSuccess,error}] = useActivationMutation();
     const [invalidError, setInvalidError] = useState<boolean>(false);
+
+    /*useEffect(() =>{
+        console.log("verify token last"+activation.activation_token);
+        console.log("verify code last"+activation.activation_code);
+        if(isSuccess){
+            toast.success("Account verified successfully");
+            setRoute("Login");
+            console.log("Success");
+
+        }
+        if(error){
+            if("data" in error){
+                const errorData = error as any;
+                toast.error(errorData.data.message);
+                setInvalidError(true);
+            }
+        }
+    },)*/
+
+    useEffect(() =>{
+        if(isSuccess){
+            console.log("Success verify token last  "+activation.activation_token);
+            console.log("Success verify code last  "+activation.activation_code);
+            toast.success("Account verified successfully");
+            setRoute("Login");
+            console.log("Success");
+
+        }
+        if(error){
+            if("data" in error){
+                console.log("Error verify token last  "+activation.activation_token);
+                console.log("Error verify code last  "+activation.activation_code);
+                const errorData = error as any;
+                toast.error(errorData.data.message);
+                //alert("Email already exists");
+            }
+        }
+
+    },[isSuccess,error]);
 
     const inputRefs = [
         useRef<HTMLInputElement>(null),
@@ -33,19 +76,33 @@ const Verification:FC<Props> = ({setRoute}) => {
         3:"",
     })
     const verificationHandler = async () => {
-        setInvalidError(true);
+       const verificationNumber = Object.values(verifyNumber).join("");
+       console.log("Verification to send "+verificationNumber);
+       if(verificationNumber.length !== 4){
+           setInvalidError(true);
+           return;
+       }
+       await activation({
+           activation_token: token,
+           activation_Code: verificationNumber
+
+       })
+
+        console.log(verificationNumber);
+        console.log(token);
+
     }
     const handleInputChange = (index:number, value:string) => {
       setInvalidError(false);
       const newVerifyNumber = {...verifyNumber, [index]:value};
       setVerifyNumber(newVerifyNumber);
+      console.log("New Verify Number",newVerifyNumber);
+      console.log("Old Verify Number",verifyNumber);
 
       if(value === "" && index >0){
-          inputRefs[index-1].current?.focus();
+          inputRefs[index +1].current?.focus();
       }else if(value.length === 1 && index < 3){
-          inputRefs[index+1].current?.focus();
-      }else {
-          console.log("If else");
+          inputRefs[index +1].current?.focus();
       }
     }
 
