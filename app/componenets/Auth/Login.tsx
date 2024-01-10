@@ -6,7 +6,6 @@ import {AiOutlineEye,AiOutlineEyeInvisible,AiFillGithub} from "react-icons/ai";
 import {FcGoogle} from "react-icons/fc";
 import {styles} from "../../styles/style";
 import {toast} from "react-hot-toast";
-
 import {useLoginMutation} from "../../../redux/features/auth/authApi";
 
 
@@ -32,11 +31,6 @@ const Login:FC<Props> = ({setRoute,setOpen}) => {
         onSubmit:async ({email,password}) =>{
             console.log(email,password);
             await login({email,password});
-            /*const data = {
-                email,password
-            }
-            await login(data);*/
-
         }
     });
 
