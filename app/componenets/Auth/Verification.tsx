@@ -1,11 +1,10 @@
+'use client'
 import React, {FC, useEffect, useRef, useState} from "react";
 import {toast} from "react-hot-toast";
 import {VscWorkspaceTrusted} from "react-icons/vsc";
 import {styles} from "../../styles/style";
 import {useSelector} from "react-redux";
 import {useActivationMutation} from "../../../redux/features/auth/authApi";
-
-
 
 type Props = {
     setRoute: (route:string) => void;
@@ -100,7 +99,7 @@ const Verification:FC<Props> = ({setRoute}) => {
       console.log("Old Verify Number",verifyNumber);
 
       if(value === "" && index >0){
-          inputRefs[index +1].current?.focus();
+          inputRefs[index -1].current?.focus();
       }else if(value.length === 1 && index < 3){
           inputRefs[index +1].current?.focus();
       }

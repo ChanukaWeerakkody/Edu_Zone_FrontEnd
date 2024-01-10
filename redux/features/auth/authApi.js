@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useActivationMutation = exports.useRegisterMutation = exports.authApi = void 0;
+exports.useLoginMutation = exports.useActivationMutation = exports.useRegisterMutation = exports.authApi = void 0;
 var apiSlice_1 = require("../api/apiSlice");
 var authSlice_1 = require("./authSlice");
 exports.authApi = apiSlice_1.apiSlice.injectEndpoints({
@@ -78,7 +78,7 @@ exports.authApi = apiSlice_1.apiSlice.injectEndpoints({
             query: function (_a) {
                 var activation_token = _a.activation_token, activation_code = _a.activation_code;
                 return ({
-                    url: 'http://localhost:8000/api/v1/activate-user',
+                    url: 'activate-user',
                     method: 'POST',
                     body: {
                         activation_token: activation_token,
@@ -86,20 +86,70 @@ exports.authApi = apiSlice_1.apiSlice.injectEndpoints({
                     },
                 });
             }
+        }),
+        /*login: builder.mutation({
+            query: ({email,password}) => ({
+                url:'login',
+                method:'POST',
+                body:{
+                    email,
+                    password,
+                },
+                //credentials: 'include' as const
+            }),
+            async onQueryStarted(arg, {queryFulfilled,dispatch}) {
+                try {
+                    const result = await queryFulfilled;
+                    dispatch(
+                        userLoggedIn({
+                            accessToken: result.data.activationToken,
+                            user: result.data.user,
+                        })
+                    )
+                } catch (error:any) {
+                    console.log(error);
+                }
+            }
+        })*/
+        login: builder.mutation({
+            query: function (_a) {
+                var email = _a.email, password = _a.password;
+                return ({
+                    url: 'login',
+                    method: 'POST',
+                    body: {
+                        email: email,
+                        password: password,
+                    },
+                    //credentials: 'include' as const
+                });
+            },
+            onQueryStarted: function (arg, _a) {
+                var queryFulfilled = _a.queryFulfilled, dispatch = _a.dispatch;
+                return __awaiter(this, void 0, void 0, function () {
+                    var result, error_2;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0:
+                                _b.trys.push([0, 2, , 3]);
+                                return [4 /*yield*/, queryFulfilled];
+                            case 1:
+                                result = _b.sent();
+                                dispatch((0, authSlice_1.userLoggedIn)({
+                                    accessToken: result.data.activationToken,
+                                    user: result.data.user,
+                                }));
+                                return [3 /*break*/, 3];
+                            case 2:
+                                error_2 = _b.sent();
+                                console.log(error_2);
+                                return [3 /*break*/, 3];
+                            case 3: return [2 /*return*/];
+                        }
+                    });
+                });
+            }
         })
-        /* userLoggedIn: builder.mutation<RegistrationResponse, RegistrationData>({
-             query: (data) => ({
-                 url: '/auth/login',
-                 method: 'POST',
-                 body: data
-             }),
-             invalidatesTags: ['Users']
-         }),
-         userLoggedOut: builder.mutation<RegistrationResponse, RegistrationData>({
-             query: (data) => ({
-                 url: '/auth/logout',
-             })
-         }),*/
     }); }
 });
-exports.useRegisterMutation = exports.authApi.useRegisterMutation, exports.useActivationMutation = exports.authApi.useActivationMutation;
+exports.useRegisterMutation = exports.authApi.useRegisterMutation, exports.useActivationMutation = exports.authApi.useActivationMutation, exports.useLoginMutation = exports.authApi.useLoginMutation;
