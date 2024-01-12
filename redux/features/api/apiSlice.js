@@ -13,8 +13,29 @@ exports.apiSlice = (0, react_1.createApi)({
                 url: 'refresh',
                 method: 'GET',
                 credentials: 'include',
-            }); }
-        })
+            }); },
+        }),
+        /*loadUser: builder.query({
+            query: (data) => ({
+                url:'me',
+                method:'GET',
+                credentials: 'include' as const,
+            }),
+            async onQueryStarted(arg, {queryFulfilled,dispatch}) {
+                try {
+                    const result = await queryFulfilled;
+                    dispatch(
+                        userLoggedIn({
+                            accessToken: result.data.activationToken,
+                            user: result.data.user,
+                        })
+                    )
+                } catch (error:any) {
+                    console.log(error);
+                }
+            }
+
+        })*/
     }); }
 });
 exports.useRefreshTokenQuery = exports.apiSlice.useRefreshTokenQuery;
