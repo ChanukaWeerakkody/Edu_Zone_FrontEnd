@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useLoginMutation = exports.useActivationMutation = exports.useRegisterMutation = exports.authApi = void 0;
+exports.useLogoutQuery = exports.useLoginMutation = exports.useActivationMutation = exports.useRegisterMutation = exports.authApi = void 0;
 var apiSlice_1 = require("../api/apiSlice");
 var authSlice_1 = require("./authSlice");
 exports.authApi = apiSlice_1.apiSlice.injectEndpoints({
@@ -149,7 +149,28 @@ exports.authApi = apiSlice_1.apiSlice.injectEndpoints({
                     });
                 });
             }
+        }),
+        logout: builder.query({
+            query: function () { return ({
+                url: 'logout',
+                method: 'GET',
+                credentials: 'include'
+            }); },
+            onQueryStarted: function (arg, _a) {
+                var queryFulfilled = _a.queryFulfilled, dispatch = _a.dispatch;
+                return __awaiter(this, void 0, void 0, function () {
+                    return __generator(this, function (_b) {
+                        try {
+                            dispatch((0, authSlice_1.userLoggedOut)());
+                        }
+                        catch (error) {
+                            console.log(error);
+                        }
+                        return [2 /*return*/];
+                    });
+                });
+            }
         })
     }); }
 });
-exports.useRegisterMutation = exports.authApi.useRegisterMutation, exports.useActivationMutation = exports.authApi.useActivationMutation, exports.useLoginMutation = exports.authApi.useLoginMutation;
+exports.useRegisterMutation = exports.authApi.useRegisterMutation, exports.useActivationMutation = exports.authApi.useActivationMutation, exports.useLoginMutation = exports.authApi.useLoginMutation, exports.useLogoutQuery = exports.authApi.useLogoutQuery;
