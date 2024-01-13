@@ -2,8 +2,8 @@
 import React, {FC, useState} from "react";
 import SideBarProfile from "./SideBarProfile";
 import {useLogoutQuery} from "../../../redux/features/auth/authApi";
-import {redirect} from "next/navigation";
 import {signOut} from "next-auth/react";
+import ProfileInfo from "./ProfileInfo";
 
 type Props = {
     user:any
@@ -47,6 +47,11 @@ const Profile:FC<Props> = ({user}) => {
                     logoutHandler={logOutHandler}
                 />
             </div>
+            {
+                active === 1 && (
+                    <ProfileInfo/>
+                )
+            }
         </div>
     )
 }
