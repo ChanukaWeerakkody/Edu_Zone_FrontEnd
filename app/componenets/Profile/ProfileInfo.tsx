@@ -1,8 +1,10 @@
-import React, {FC, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import Image from "next/image";
 import {AiOutlineCamera} from "react-icons/ai";
 import avatarDefault from "../../../public/assests/avatarDefault.png";
 import {styles} from "../../styles/style";
+import {useUpdateAvatarMutation} from "../../../redux/features/user/userApi";
+import {useLoadUserQuery} from "../../../redux/features/api/apiSlice";
 
 interface Props {
     user:any
@@ -11,10 +13,34 @@ interface Props {
 
 const ProfileInfo:FC<Props> = ({avatar,user}) => {
     const [name, setName] = useState(user && user.name);
+    const [updateAvatar,{isSuccess,error}] =useUpdateAvatarMutation();
+    const [loadUser,setLoadUser] = useState(false);
+    const {} = useLoadUserQuery(undefined,{skip:loadUser ? false : true});
 
     const imageHandler = async (e:any) =>{
+        /*const fileReader = new FileReader();
+
+        fileReader.onload = () =>{
+            if(fileReader.readyState === 2){
+                const avatar = fileReader.result;
+                updateAvatar({
+                    avatar
+                });
+            }
+        }
+        fileReader.readAsDataURL(e.target.files[0]);*/
         console.log("Image handler")
     }
+
+    /*useEffect(() => {
+        if(isSuccess){
+            setLoadUser(true);
+        }
+        if(error){
+            console.log(error);
+        }
+    },[isSuccess,error])*/
+
     const handleSubmit = async (e:any) =>{
         console.log("Submit")
     }
