@@ -19,7 +19,7 @@ const page:FC<Props> = (props) => {
         <div>
             <Protected>
                 <Heading
-                    title={`${user?.name} profile`}
+                    title={`${user?.name} profile - Edu-Zone`}
                     description="ELearning is the best platform for learn"
                     keywords="Programming, TReact, MERN"
                 />
