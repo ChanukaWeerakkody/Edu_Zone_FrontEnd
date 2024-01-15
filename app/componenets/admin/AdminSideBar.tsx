@@ -210,6 +210,91 @@ const AdminSideBar = () => {
                             selected={selected}
                             setSelected={setSelected}
                         />
+                        <Typography
+                            variant="h5"
+                            className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+                            sx={{m: "15px 0 5 20px"}}
+                        >
+                            {isCollapsed && "Customization"}
+                        </Typography>
+                        <Item
+                            title="Hero"
+                            to="/admin/hero"
+                            icon={<WebIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="FAQ"
+                            to="/faq"
+                            icon={<QuizIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Categories"
+                            to="/admin/categories"
+                            icon={<WysiwygIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Typography
+                            variant="h5"
+                            className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+                            sx={{m: "15px 0 5 20px"}}
+                        >
+                            {isCollapsed && "Controllers"}
+                        </Typography>
+                        <Item
+                            title="Manage Team"
+                            to="/admin/team"
+                            icon={<PeopleOutlinedIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Typography
+                            variant="h6"
+                            className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+                            sx={{m: "15px 0 5 20px"}}
+                        >
+                            {isCollapsed && "Analytics"}
+                        </Typography>
+                        <Item
+                            title="Course Analytics"
+                            to="/admin/courses-analytics"
+                            icon={<BarChartOutlinedIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Orders Analytics"
+                            to="/admin/orders-analytics"
+                            icon={<MapOutlinedIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Users Analytics"
+                            to="/admin/users-analytics"
+                            icon={<ManageHistoryIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Typography
+                            variant="h6"
+                            className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+                            sx={{m: "15px 0 5 20px"}}
+                        >
+                            {isCollapsed && "Extras"}
+                        </Typography>
+
+                        <Item
+                            title="Settings"
+                            to="/admin/settings"
+                            icon={<SettingsIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
                     </Box>
 
 
