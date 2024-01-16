@@ -180,7 +180,13 @@ const AdminSideBar = () => {
                         >
                             {isCollapsed && "Data"}
                         </Typography>
-
+                        <Item
+                            title="Users"
+                            to="/admin/users"
+                            icon={<GroupsIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
                         <Item
                             title="Invoices"
                             to="/admin/invoices"
@@ -295,9 +301,14 @@ const AdminSideBar = () => {
                             selected={selected}
                             setSelected={setSelected}
                         />
+                        <Item
+                            title="Logout"
+                            to="/logout"
+                            icon={<ExitToAppIcon/>}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
                     </Box>
-
-
                 </Menu>
 
             </ProSidebar>
