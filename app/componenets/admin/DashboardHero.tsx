@@ -7,7 +7,6 @@ const DashboardHero = (props: Props) => {
     return (
         <div>
             <DashboardHeader/>
-
         </div>
     )
 }
