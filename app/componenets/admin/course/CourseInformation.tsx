@@ -213,10 +213,6 @@ const CourseInformation:FC<Props> = ({courseInfo,setCourseInfo,active,setActive}
                     />
                 </div>
                 <br/><br/>
-
-
-
-
             </form>
         </div>
     )
