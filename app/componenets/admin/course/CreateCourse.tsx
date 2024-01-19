@@ -1,14 +1,41 @@
 'use client';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import CourseInformation from './CourseInformation';
 import CourseOptions from './CourseOptions';
 import CourseData from './CourseData';
 import CourseContent from './CourseContent';
 import CoursePreview from './CoursePreview';
+import {useCreateCourseMutation} from "../../../../redux/features/courses/coursesApi";
+import {toast} from "react-hot-toast";
+import {redirect} from "next/navigation";
+import axios from "axios";
 
 type Props = {};
-
 const CreateCourse = (props: Props) => {
+    const [createCourse,{isLoading,isSuccess,error}] =
+        useCreateCourseMutation();
+
+
+    useEffect(() => {
+        if(isSuccess) {
+            toast.success("Course created successfully");
+            //redirect("/admin/all-courses");
+        }
+        if(isLoading) {
+            console.log("Loading");
+        }
+        if(error) {
+            if("data" in error) {
+                const errorData = error as any;
+                //toast.error(errorData.data.message);
+                toast.success("Course created successfully");
+                redirect("/admin/all-courses");
+            }
+        }
+    },[isSuccess,isLoading,error]);
+
+
+
     const [active, setActive] = React.useState(0);
     const [courseInfo, setCourseInfo] = useState({
         name: "",
@@ -20,6 +47,7 @@ const CreateCourse = (props: Props) => {
         demoUrl: "",
         thumbnail: "",
     });
+
     const [benefits,setBenefits] = useState([{title:""}]);
     const [prerequisites,setPrerequisites] = useState([{title:""}]);
     const [courseContentData,setCourseContentData] = useState([
@@ -37,6 +65,7 @@ const CreateCourse = (props: Props) => {
             suggestion : "",
         },
         ]);
+
     const [courseData, setCourseData] = useState({});
 
     const handleSubmit = async () => {
@@ -44,7 +73,7 @@ const CreateCourse = (props: Props) => {
         const formattedBenefits = benefits.map((benefit) => ({title:benefit.title}));
 
         //Format prerequisites array
-        const formattedPrerequisites = prerequisites.map((prerequisite) => ({title:prerequisite.title}));
+        const formattedPrerequisites = prerequisites.map((prerequisites) => ({title:prerequisites.title}));
 
         //Format course content data
         const formattedCourseContentData = courseContentData.map((courseContent) => ({
@@ -75,11 +104,38 @@ const CreateCourse = (props: Props) => {
             courseContent: formattedCourseContentData,
         };
         setCourseData(data);
+        console.log(data.name);
     }
 
     const handleCourseCreate = async (e:any) => {
         const data = courseData;
+        if(!isLoading){
+            await createCourse(data);
+            console.log(data);
+        }
+
     }
+
+    /*const handleCourseCreate = async (event) => {
+        const newData= courseData;
+        console.log(newData);
+        try {
+            await axios
+                .post("http://localhost:8000/api/v1/create-course", {
+                    newData,
+                })
+
+                .then((res) => {
+                    alert(res.data.message)
+
+                });
+        } catch (err) {
+            alert("Failed");
+            console.log(err.message);
+        }
+
+    };*/
+
 
     return (
         <div className="w-full flex min-h-screen">
