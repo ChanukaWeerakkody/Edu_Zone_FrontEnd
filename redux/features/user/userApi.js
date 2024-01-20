@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useUpdateAvatarMutation = exports.userApi = void 0;
+exports.useGetAllUsersQuery = exports.useUpdateAvatarMutation = exports.userApi = void 0;
 var apiSlice_1 = require("../api/apiSlice");
 exports.userApi = apiSlice_1.apiSlice.injectEndpoints({
     endpoints: function (builder) { return ({
@@ -12,6 +12,13 @@ exports.userApi = apiSlice_1.apiSlice.injectEndpoints({
                 credentials: 'include',
             }); },
         }),
+        getAllUsers: builder.query({
+            query: function () { return ({
+                url: 'getAll-users',
+                method: 'GET',
+                credentials: 'include',
+            }); },
+        })
     }); },
 });
-exports.useUpdateAvatarMutation = exports.userApi.useUpdateAvatarMutation;
+exports.useUpdateAvatarMutation = exports.userApi.useUpdateAvatarMutation, exports.useGetAllUsersQuery = exports.userApi.useGetAllUsersQuery;
