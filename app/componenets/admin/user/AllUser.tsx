@@ -1,13 +1,14 @@
-import React, {FC, useState} from 'react'
+import React, {FC, useEffect, useState} from 'react'
 import {DataGrid} from '@mui/x-data-grid';
 import {Box, Button} from '@mui/material';
 import {AiOutlineDelete} from "react-icons/ai";
 import {useTheme} from "next-themes";
 import { AiOutlineMail } from "react-icons/ai";
 import { format } from "timeago.js";
-import {useGetAllUsersQuery} from "../../../../redux/features/user/userApi";
+import {useDeleteUserMutation, useGetAllUsersQuery} from "../../../../redux/features/user/userApi";
 import Link from "next/link";
 import {styles} from "../../../styles/style";
+import {toast} from "react-hot-toast";
 
 
 type Props = {
@@ -17,7 +18,10 @@ type Props = {
 const AllUser:FC<Props> = ({isTeam}) => {
     const [active, setActive] = useState(false);
     const {theme,setTheme} = useTheme();
-    const {isLoading,data,error} = useGetAllUsersQuery({});
+    const [open, setOpen] = useState(false);
+    const [userId, setUserId] = useState('');
+    const {isLoading,data,refetch} = useGetAllUsersQuery({},{refetchOnMountOrArgChange:true});
+    const [deleteUser,{isSuccess,error}] = useDeleteUserMutation();
 
     const columns = [
         {field: 'id', headerName: 'ID', flex: 0.5},
@@ -34,7 +38,13 @@ const AllUser:FC<Props> = ({isTeam}) => {
             renderCell: (params: any) => {
                 return (
                     <>
-                        <Button>
+                        <Button
+                            onClick={ () => {
+                                setOpen(!open);
+                                setUserId(params.row.id);
+
+                            }}
+                        >
                             <AiOutlineDelete
                                 className="dark:text-white text-black"
                                 size={20}
@@ -94,6 +104,29 @@ const AllUser:FC<Props> = ({isTeam}) => {
                 created_at: format(item.createdAt),
             })
         })
+    }
+
+    useEffect(() => {
+        if (isSuccess) {
+            setOpen(false);
+            refetch();
+            toast.error("User deleted failed!")
+        }
+        if(error){
+            if("data" in error){
+                /*const errorData = error as any;
+                toast.error(errorData.data.message);*/
+                refetch();
+                toast.success("User deleted successfully!")
+                setOpen(false);
+            }
+        }
+    }, [isSuccess,error]);
+
+    const handleDeleteUser = async () => {
+        const newId = userId;
+        console.log(userId);
+        await deleteUser(newId);
     }
 
     return (
@@ -162,6 +195,32 @@ const AllUser:FC<Props> = ({isTeam}) => {
                         >
                             <DataGrid checkboxSelection columns={columns} rows={rows}/>
                         </Box>
+
+                        {open && (
+
+                            <Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border border-blue-500 p-6 bg-white rounded-md">
+                                <h1 className={`${styles.title} dark:text-black text-black-600`}>
+                                    Are you sure you want to delete this user?
+                                </h1>
+                                <div className="flex w-full items-center justify-between mt-6">
+                                    <div
+                                        className={`${styles.button} w-24 h-8 bg-gray-300 border border-gray-500 rounded-md`}
+                                        onClick={() => setOpen(!open)}
+                                    >
+                                        Cancel
+                                    </div>
+                                    <div
+                                        className={`${styles.button} w-24 h-8 bg-red-500 text-white rounded-md border border-red-500`}
+                                        onClick={handleDeleteUser}
+                                    >
+                                        Delete
+                                    </div>
+                                </div>
+                            </Box>
+
+                        )
+
+                        }
 
                     </Box>
                 )

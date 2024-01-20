@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useGetAllUsersQuery = exports.useUpdateAvatarMutation = exports.userApi = void 0;
+exports.useDeleteUserMutation = exports.useGetAllUsersQuery = exports.useUpdateAvatarMutation = exports.userApi = void 0;
 var apiSlice_1 = require("../api/apiSlice");
 exports.userApi = apiSlice_1.apiSlice.injectEndpoints({
     endpoints: function (builder) { return ({
@@ -18,7 +18,13 @@ exports.userApi = apiSlice_1.apiSlice.injectEndpoints({
                 method: 'GET',
                 credentials: 'include',
             }); },
+        }),
+        deleteUser: builder.mutation({
+            query: function (id) { return ({
+                url: "delete-user/".concat(id),
+                method: 'DELETE',
+            }); },
         })
     }); },
 });
-exports.useUpdateAvatarMutation = exports.userApi.useUpdateAvatarMutation, exports.useGetAllUsersQuery = exports.userApi.useGetAllUsersQuery;
+exports.useUpdateAvatarMutation = exports.userApi.useUpdateAvatarMutation, exports.useGetAllUsersQuery = exports.userApi.useGetAllUsersQuery, exports.useDeleteUserMutation = exports.userApi.useDeleteUserMutation;

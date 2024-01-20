@@ -170,26 +170,6 @@ const AllCourses = (props: Props) => {
 
                         {open && (
 
-
-                            /*<Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                                <h1 className={`${styles.title}`}>
-                                    Are you sure you want to delete this course?
-                                </h1>
-                                <div className="flex w-full items-center justify-between mb-6">
-                                    <div
-                                        className={`${styles.button} w-24 h-8`}
-                                        onClick={() => setOpen(!open)}
-                                    >
-                                        Cancel
-                                    </div>
-                                    <div
-                                        className={`${styles.button} w-24 h-8`}
-                                        onClick={handleDelete}
-                                    >
-                                        Delete
-                                    </div>
-                                </div>
-                            </Box>*/
                             <Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border border-blue-500 p-6 bg-white rounded-md">
                                 <h1 className={`${styles.title} dark:text-black text-black-600`}>
                                     Are you sure you want to delete this course?
