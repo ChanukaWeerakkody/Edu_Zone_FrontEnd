@@ -1,4 +1,4 @@
-import React, {FC} from 'react'
+import React, {FC, useState} from 'react'
 import {DataGrid} from '@mui/x-data-grid';
 import {Box, Button} from '@mui/material';
 import {AiOutlineDelete} from "react-icons/ai";
@@ -7,6 +7,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { format } from "timeago.js";
 import {useGetAllUsersQuery} from "../../../../redux/features/user/userApi";
 import Link from "next/link";
+import {styles} from "../../../styles/style";
 
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
 }
 
 const AllUser:FC<Props> = ({isTeam}) => {
+    const [active, setActive] = useState(false);
     const {theme,setTheme} = useTheme();
     const {isLoading,data,error} = useGetAllUsersQuery({});
 
@@ -102,6 +104,13 @@ const AllUser:FC<Props> = ({isTeam}) => {
                     <div></div>
                 ): (
                     <Box m="20px">
+                        <div className="w-full flex justify-end">
+                            <div className={`${styles.button} !w-[200px] dark:bg-[#57c7a3] !h-[35px] dark:border dark:border-[#ffffff6c]`}
+                                onClick={() => setActive(!active)}
+                            >
+                                Add new Member
+                            </div>
+                        </div>
                         <Box m="40px 0 0 0"
                              height="80vh"
                              sx={{

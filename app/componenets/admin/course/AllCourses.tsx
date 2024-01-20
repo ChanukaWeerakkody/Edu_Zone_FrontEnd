@@ -1,19 +1,25 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {DataGrid} from '@mui/x-data-grid';
 import {Box, Button} from '@mui/material';
 import {AiOutlineDelete} from "react-icons/ai";
 import {useTheme} from "next-themes";
 import {FiEdit2} from "react-icons/fi";
 import { MdEdit } from "react-icons/md";
-import {useGetAllCoursesQuery} from "../../../../redux/features/courses/coursesApi";
+import {useDeleteCourseMutation, useGetAllCoursesQuery} from "../../../../redux/features/courses/coursesApi";
 import { format } from "timeago.js";
 
+import {styles} from "../../../styles/style";
+import {toast} from "react-hot-toast";
+import Modal from 'react-modal';
 
 type Props = {}
 
 const AllCourses = (props: Props) => {
     const {theme,setTheme} = useTheme();
-    const {isLoading,data,error} = useGetAllCoursesQuery({});
+    const [open, setOpen] = useState(false);
+    const [courseId, setCourseId] = useState('');
+    const {isLoading,data,refetch} = useGetAllCoursesQuery({},{refetchOnMountOrArgChange:true});
+    const [deleteCourse,{isSuccess,error}] = useDeleteCourseMutation();
 
     const columns = [
         {field: 'id', headerName: 'ID', flex: 0.5},
@@ -46,7 +52,13 @@ const AllCourses = (props: Props) => {
             renderCell: (params: any) => {
                 return (
                     <>
-                        <Button>
+                        <Button
+                            onClick={ () => {
+                                setOpen(!open);
+                                setCourseId(params.row.id);
+
+                            }}
+                        >
                             <AiOutlineDelete
                             className="dark:text-white text-black"
                             size={20}
@@ -73,8 +85,28 @@ const AllCourses = (props: Props) => {
         })
     }
 
+    useEffect(() => {
+        if (isSuccess) {
+            setOpen(false);
+            refetch();
+            toast.error("Course deleted failed!")
+        }
+        if(error){
+            if("data" in error){
+                /*const errorData = error as any;
+                toast.error(errorData.data.message);*/
+                refetch();
+                toast.success("Course deleted successfully!")
+                setOpen(false);
+            }
+        }
+    }, [isSuccess,error]);
 
-
+    const handleDelete = async () => {
+        const newId = courseId;
+        console.log(courseId);
+        await deleteCourse(newId);
+    }
 
     return (
         <div className="mt-[120px]">
@@ -135,6 +167,54 @@ const AllCourses = (props: Props) => {
                         >
                             <DataGrid checkboxSelection columns={columns} rows={rows}/>
                         </Box>
+
+                        {open && (
+
+
+                            /*<Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                <h1 className={`${styles.title}`}>
+                                    Are you sure you want to delete this course?
+                                </h1>
+                                <div className="flex w-full items-center justify-between mb-6">
+                                    <div
+                                        className={`${styles.button} w-24 h-8`}
+                                        onClick={() => setOpen(!open)}
+                                    >
+                                        Cancel
+                                    </div>
+                                    <div
+                                        className={`${styles.button} w-24 h-8`}
+                                        onClick={handleDelete}
+                                    >
+                                        Delete
+                                    </div>
+                                </div>
+                            </Box>*/
+                            <Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border border-blue-500 p-6 bg-white rounded-md">
+                                <h1 className={`${styles.title} dark:text-black text-black-600`}>
+                                    Are you sure you want to delete this course?
+                                </h1>
+                                <div className="flex w-full items-center justify-between mt-6">
+                                    <div
+                                        className={`${styles.button} w-24 h-8 bg-gray-300 border border-gray-500 rounded-md`}
+                                        onClick={() => setOpen(!open)}
+                                    >
+                                        Cancel
+                                    </div>
+                                    <div
+                                        className={`${styles.button} w-24 h-8 bg-red-500 text-white rounded-md border border-red-500`}
+                                        onClick={handleDelete}
+                                    >
+                                        Delete
+                                    </div>
+                                </div>
+                            </Box>
+
+
+                        )
+
+                        }
+
 
                     </Box>
                 )
