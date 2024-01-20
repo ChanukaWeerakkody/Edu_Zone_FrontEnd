@@ -1,23 +1,25 @@
-import React from 'react'
+import React, {FC} from 'react'
 import {DataGrid} from '@mui/x-data-grid';
 import {Box, Button} from '@mui/material';
 import {AiOutlineDelete} from "react-icons/ai";
 import {useTheme} from "next-themes";
-import {FiEdit2} from "react-icons/fi";
-import { MdEdit } from "react-icons/md";
+import { AiOutlineMail } from "react-icons/ai";
 import { format } from "timeago.js";
 import {useGetAllUsersQuery} from "../../../../redux/features/user/userApi";
+import Link from "next/link";
 
 
-type Props = {}
+type Props = {
+    isTeam: boolean
+}
 
-const AllUser = (props: Props) => {
+const AllUser:FC<Props> = ({isTeam}) => {
     const {theme,setTheme} = useTheme();
     const {isLoading,data,error} = useGetAllUsersQuery({});
 
     const columns = [
         {field: 'id', headerName: 'ID', flex: 0.5},
-        {field: 'name', headerName: 'Name', flex: 1},
+        {field: 'name', headerName: 'Name', flex: .5},
         {field: 'email', headerName: 'Email', flex: .5,},
         {field: 'role', headerName: 'Role', flex: .5,},
         {field: 'courses', headerName: 'Purchased Courses', flex: 0.5,},
@@ -39,13 +41,47 @@ const AllUser = (props: Props) => {
                     </>
                 )
             }
+        },
+        {
+            field: '',
+            headerName: 'Email',
+            flex: 0.2,
+            renderCell: (params: any) => {
+                return (
+                    <>
+                        <a
+                            href={`mailto:${params.row.email}`}
+
+
+                        >
+                            <AiOutlineMail
+                                className="dark:text-white text-black"
+                                size={20}
+                            />
+
+                        </a>
+                    </>
+                )
+            }
         }
     ];
 
-    const rows = [
-    ]
+    const rows = []
 
-    {
+    if(isTeam){
+        const newData = data && data.users.filter((item: any) =>  item.role === "admin");
+        newData &&
+        newData.forEach((item: any) => {
+            rows.push({
+                id: item._id,
+                name: item.name,
+                email: item.email,
+                role: item.role,
+                courses: item.courses.length,
+                created_at: format(item.createdAt),
+            })
+        })
+    }else {
         data && data.users.forEach((item: any) => {
             rows.push({
                 id: item._id,
@@ -57,9 +93,6 @@ const AllUser = (props: Props) => {
             })
         })
     }
-
-
-
 
     return (
         <div className="mt-[120px]">
