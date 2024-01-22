@@ -11,6 +11,7 @@ import { format } from "timeago.js";
 import {styles} from "../../../styles/style";
 import {toast} from "react-hot-toast";
 import Modal from 'react-modal';
+import Link from "next/link";
 
 type Props = {}
 
@@ -34,12 +35,12 @@ const AllCourses = (props: Props) => {
             renderCell: (params: any) => {
                 return (
                     <>
-                        <Button>
+                        <Link href={`/admin/edit-course/${params.row.id}`}>
                             <MdEdit
                                 className="dark:text-white text-black"
                                 size={20}
                             />
-                        </Button>
+                        </Link>
                     </>
                 )
             }
