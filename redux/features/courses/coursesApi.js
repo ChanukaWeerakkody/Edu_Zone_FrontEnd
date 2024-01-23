@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useDeleteCourseMutation = exports.useGetAllCoursesQuery = exports.useCreateCourseMutation = exports.coursesApi = void 0;
+exports.useEditCourseMutation = exports.useDeleteCourseMutation = exports.useGetAllCoursesQuery = exports.useCreateCourseMutation = exports.coursesApi = void 0;
 var apiSlice_1 = require("../api/apiSlice");
 exports.coursesApi = apiSlice_1.apiSlice.injectEndpoints({
     endpoints: function (builder) { return ({
@@ -13,7 +13,7 @@ exports.coursesApi = apiSlice_1.apiSlice.injectEndpoints({
         }),
         getAllCourses: builder.query({
             query: function () { return ({
-                url: 'get-courses',
+                url: 'getAll-courses',
                 method: 'GET',
             }); },
         }),
@@ -22,7 +22,17 @@ exports.coursesApi = apiSlice_1.apiSlice.injectEndpoints({
                 url: "delete-course/".concat(id),
                 method: 'DELETE',
             }); },
+        }),
+        editCourse: builder.mutation({
+            query: function (_a) {
+                var id = _a.id, data = _a.data;
+                return ({
+                    url: "edit-course/".concat(id),
+                    body: data,
+                    method: 'PUT',
+                });
+            },
         })
     }); },
 });
-exports.useCreateCourseMutation = exports.coursesApi.useCreateCourseMutation, exports.useGetAllCoursesQuery = exports.coursesApi.useGetAllCoursesQuery, exports.useDeleteCourseMutation = exports.coursesApi.useDeleteCourseMutation;
+exports.useCreateCourseMutation = exports.coursesApi.useCreateCourseMutation, exports.useGetAllCoursesQuery = exports.coursesApi.useGetAllCoursesQuery, exports.useDeleteCourseMutation = exports.coursesApi.useDeleteCourseMutation, exports.useEditCourseMutation = exports.coursesApi.useEditCourseMutation;

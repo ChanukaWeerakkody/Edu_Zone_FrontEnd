@@ -112,7 +112,7 @@ const CourseContent:FC<Props> = ({
             setActive(active + 1);
             handleCourseSubmit();
         }
-    }
+    };
 
     return (
         <div className="w-[80%] m-auto mt-24 p-3">

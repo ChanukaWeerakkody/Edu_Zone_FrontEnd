@@ -5,7 +5,7 @@ import CourseOptions from './CourseOptions';
 import CourseData from './CourseData';
 import CourseContent from './CourseContent';
 import CoursePreview from './CoursePreview';
-import { useGetAllCoursesQuery} from "../../../../redux/features/courses/coursesApi";
+import {useEditCourseMutation, useGetAllCoursesQuery} from "../../../../redux/features/courses/coursesApi";
 import {toast} from "react-hot-toast";
 import {redirect} from "next/navigation";
 import axios from "axios";
@@ -15,8 +15,9 @@ type Props = {
 };
 
 const EditCourse:FC<Props> = ({id}) => {
+    const [editCourse,{isSuccess,error}] = useEditCourseMutation();
 
-    const {isLoading,data,refetch} = useGetAllCoursesQuery(
+    const {data,refetch} = useGetAllCoursesQuery(
         {},
         {refetchOnMountOrArgChange:true}
     );
@@ -25,24 +26,19 @@ const EditCourse:FC<Props> = ({id}) => {
     console.log(id);
 
 
-    /* useEffect(() => {
+     useEffect(() => {
          if(isSuccess) {
-             toast.success("Course created successfully");
-             //redirect("/admin/all-courses");
+             toast.success("Course updated successfully");
+             redirect("/admin/courses");
          }
-         if(isLoading) {
-             console.log("Loading");
-         }
+
          if(error) {
              if("data" in error) {
                  const errorData = error as any;
-                 //toast.error(errorData.data.message);
-                 toast.success("Course created successfully");
-                 redirect("/admin/all-courses");
+                 toast.error(errorData.data.message);
              }
          }
-     },[isSuccess,isLoading,error]);
- */
+     },[isSuccess,error]);
 
 
     const [active, setActive] = React.useState(0);
@@ -61,9 +57,10 @@ const EditCourse:FC<Props> = ({id}) => {
             });
             setBenefits(editCourseData.benefits);
             setPrerequisites(editCourseData.prerequisites);
-            setCourseContentData(editCourseData.courseContent);
+            setCourseContentData(editCourseData.courseData);
         }
     },[editCourseData]);
+
 
     const [courseInfo, setCourseInfo] = useState({
         name: "",
@@ -95,6 +92,7 @@ const EditCourse:FC<Props> = ({id}) => {
     ]);
 
     const [courseData, setCourseData] = useState({});
+    console.log(courseData);
 
     const handleSubmit = async () => {
         //Format benefit array
@@ -137,29 +135,8 @@ const EditCourse:FC<Props> = ({id}) => {
 
     const handleCourseCreate = async (e:any) => {
         const data = courseData;
-        console.log(editCourseData);
-
+        await editCourse({id,data});
     }
-
-    /*const handleCourseCreate = async (event) => {
-        const newData= courseData;
-        console.log(newData);
-        try {
-            await axios
-                .post("http://localhost:8000/api/v1/create-course", {
-                    newData,
-                })
-
-                .then((res) => {
-                    alert(res.data.message)
-
-                });
-        } catch (err) {
-            alert("Failed");
-            console.log(err.message);
-        }
-
-    };*/
 
 
     return (
@@ -208,6 +185,7 @@ const EditCourse:FC<Props> = ({id}) => {
                             setActive={setActive}
                             courseData={courseData}
                             handleCourseCreate={handleCourseCreate}
+                            isEdit={true}
                         />
                     )
                 }
