@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useGetCourseAnalyticsQuery = exports.analyticsApi = void 0;
+exports.useGetUsersAnalyticsQuery = exports.useGetCourseAnalyticsQuery = exports.analyticsApi = void 0;
 var apiSlice_1 = require("../api/apiSlice");
 exports.analyticsApi = apiSlice_1.apiSlice.injectEndpoints({
     endpoints: function (builder) { return ({
@@ -9,7 +9,13 @@ exports.analyticsApi = apiSlice_1.apiSlice.injectEndpoints({
                 url: 'get-course-analytics',
                 method: 'GET',
             }); }
+        }),
+        getUsersAnalytics: builder.query({
+            query: function () { return ({
+                url: 'get-user-analytics',
+                method: 'GET',
+            }); }
         })
     }); }
 });
-exports.useGetCourseAnalyticsQuery = exports.analyticsApi.useGetCourseAnalyticsQuery;
+exports.useGetCourseAnalyticsQuery = exports.analyticsApi.useGetCourseAnalyticsQuery, exports.useGetUsersAnalyticsQuery = exports.analyticsApi.useGetUsersAnalyticsQuery;
