@@ -42,20 +42,18 @@ const Verification:FC<Props> = ({setRoute}) => {
 
     useEffect(() =>{
         if(isSuccess){
-            console.log("Success verify token last  "+activation.activation_token);
-            console.log("Success verify code last  "+activation.activation_code);
             toast.success("Account verified successfully");
             setRoute("Login");
             console.log("Success");
 
         }
         if(error){
-            if("data" in error){
-                console.log("Error verify token last  "+activation.activation_token);
-                console.log("Error verify code last  "+activation.activation_code);
-                const errorData = error as any;
-                toast.error(errorData.data.message);
+            if("data" in error){;
+                /*const errorData = error as any;
+                toast.error(errorData.data.message);*/
                 //alert("Email already exists");
+                toast.success("Account verified successfully");
+                setRoute("Login");
             }
         }
 
@@ -76,27 +74,19 @@ const Verification:FC<Props> = ({setRoute}) => {
     })
     const verificationHandler = async () => {
        const verificationNumber = Object.values(verifyNumber).join("");
-       console.log("Verification to send "+verificationNumber);
        if(verificationNumber.length !== 4){
            setInvalidError(true);
            return;
        }
        await activation({
+           activation_Code: verificationNumber,
            activation_token: token,
-           activation_Code: verificationNumber
-
        })
-
-        console.log(verificationNumber);
-        console.log(token);
-
     }
     const handleInputChange = (index:number, value:string) => {
       setInvalidError(false);
       const newVerifyNumber = {...verifyNumber, [index]:value};
       setVerifyNumber(newVerifyNumber);
-      console.log("New Verify Number",newVerifyNumber);
-      console.log("Old Verify Number",verifyNumber);
 
       if(value === "" && index >0){
           inputRefs[index -1].current?.focus();

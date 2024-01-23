@@ -223,7 +223,7 @@ const AdminSideBar = () => {
                         >
                             {isCollapsed && "Customization"}
                         </Typography>
-                        <Item
+                        {/*<Item
                             title="Hero"
                             to="/admin/hero"
                             icon={<WebIcon/>}
@@ -236,14 +236,14 @@ const AdminSideBar = () => {
                             icon={<QuizIcon/>}
                             selected={selected}
                             setSelected={setSelected}
-                        />
-                        <Item
+                        />*/}
+                        {/*<Item
                             title="Categories"
                             to="/admin/categories"
                             icon={<WysiwygIcon/>}
                             selected={selected}
                             setSelected={setSelected}
-                        />
+                        />*/}
                         <Typography
                             variant="h5"
                             className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
@@ -260,7 +260,7 @@ const AdminSideBar = () => {
                         />
                         <Typography
                             variant="h6"
-                            className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+                            className="!text-[18px] text-white dark:text-[#ffffffc1] capitalize !font-[400]"
                             sx={{m: "15px 0 5 20px"}}
                         >
                             {isCollapsed && "Analytics"}
@@ -294,13 +294,13 @@ const AdminSideBar = () => {
                             {isCollapsed && "Extras"}
                         </Typography>
 
-                        <Item
+                        {/*<Item
                             title="Settings"
                             to="/admin/settings"
                             icon={<SettingsIcon/>}
                             selected={selected}
                             setSelected={setSelected}
-                        />
+                        />*/}
                         <Item
                             title="Logout"
                             to="/logout"
